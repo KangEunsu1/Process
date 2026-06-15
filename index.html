@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VERONE Final Process - Photo Preview</title>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inika:wght@400;700&family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --bg: #ffffff;
+      --text: #111111;
+      --sub: #666666;
+      --light: #9a9a9a;
+      --line: #d7d7d7;
+      --line-dark: #111111;
+      --max: 1360px;
+      --gutter: 24px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      word-break: keep-all;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(calc(100% - 80px), var(--max));
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    .header-inner {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: "Inika", Georgia, serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .nav {
+      display: flex;
+      gap: 18px;
+      color: var(--sub);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--line-dark);
+    }
+
+    .center {
+      grid-column: 3 / 11;
+      text-align: center;
+    }
+
+    .hero-kicker,
+    .section-label,
+    .caption {
+      color: var(--light);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker { margin-bottom: 28px; }
+
+    .hero-title {
+      font-family: "Inika", Georgia, serif;
+      font-size: clamp(70px, 10vw, 150px);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-sub {
+      max-width: 760px;
+      margin: 42px auto 0;
+      color: var(--sub);
+      font-size: clamp(17px, 1.4vw, 22px);
+      line-height: 1.8;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-bottom {
+      margin: 58px auto 0;
+      max-width: 720px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line-dark);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .section {
+      padding: 126px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-label { margin-bottom: 24px; }
+
+    .section-title {
+      font-size: clamp(38px, 4.6vw, 74px);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -0.055em;
+    }
+
+    .section-subtitle {
+      margin-top: 18px;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.55;
+      letter-spacing: -0.035em;
+    }
+
+    .section-desc {
+      max-width: 820px;
+      margin: 32px auto 0;
+      color: var(--sub);
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.85;
+      letter-spacing: -0.02em;
+    }
+
+    .card {
+      border: 1px solid var(--line-dark);
+      background: transparent;
+    }
+
+    .body {
+      color: var(--sub);
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.8;
+      letter-spacing: -0.02em;
+    }
+
+    .card-title {
+      margin-bottom: 16px;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.28;
+      letter-spacing: -0.045em;
+    }
+
+    .eng-title {
+      font-family: "Inika", Georgia, serif;
+      letter-spacing: 0.02em;
+    }
+
+    .cards {
+      grid-column: 2 / 12;
+      margin-top: 64px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gutter);
+    }
+
+    .cards.two {
+      grid-column: 3 / 11;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cards.four {
+      grid-column: 1 / 13;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .basic-card {
+      min-height: 240px;
+      padding: 30px;
+      text-align: left;
+    }
+
+    .center-card {
+      text-align: center;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+      padding-left: 18px;
+      color: var(--sub);
+      font-size: 15px;
+      line-height: 1.75;
+      letter-spacing: -0.02em;
+    }
+
+    .flow-table {
+      grid-column: 3 / 11;
+      margin-top: 70px;
+      border-top: 1px solid var(--line-dark);
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+
+    .flow-row b {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .flow-row span {
+      color: var(--sub);
+      font-size: 15px;
+      line-height: 1.75;
+      letter-spacing: -0.02em;
+    }
+
+    .quote {
+      grid-column: 2 / 12;
+      margin-top: 66px;
+      padding: 68px 48px;
+      border-top: 1px solid var(--line-dark);
+      border-bottom: 1px solid var(--line-dark);
+      text-align: center;
+    }
+
+    .quote p {
+      font-size: clamp(30px, 4vw, 58px);
+      font-weight: 800;
+      line-height: 1.32;
+      letter-spacing: -0.05em;
+    }
+
+    .formula {
+      grid-column: 3 / 11;
+      margin-top: 48px;
+      padding: 26px 24px;
+      border: 1px solid var(--line-dark);
+      text-align: center;
+      font-family: "Inika", Georgia, serif;
+      font-size: clamp(28px, 3.2vw, 46px);
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+    }
+
+    .wire-box {
+      border: 1px dashed var(--line-dark);
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--light);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.5;
+      padding: 14px;
+    }
+
+    .mood-preview {
+      height: 240px;
+      border: 1px dashed var(--line-dark);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding: 8px;
+      margin-bottom: 24px;
+    }
+
+    .mood-tile {
+      border: 1px dashed var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--light);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.35;
+      padding: 6px;
+    }
+
+    .keyword-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .keyword {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid var(--line-dark);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .color-list {
+      grid-column: 3 / 11;
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .color-item {
+      min-height: 170px;
+      border: 1px solid var(--line-dark);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: left;
+      background: transparent;
+    }
+
+    .color-chip {
+      width: 100%;
+      height: 42px;
+      border: 1px dashed var(--line-dark);
+    }
+
+    .color-item b {
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .color-item span {
+      color: var(--sub);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .mockup-wide {
+      grid-column: 2 / 12;
+      margin-top: 68px;
+      padding: 30px;
+    }
+
+    .mockup-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .mockup-header h3 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.045em;
+    }
+
+    .mockup-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .product-thumb {
+      border: 1px solid var(--line-dark);
+    }
+
+    .thumb-image {
+      height: 180px;
+      border-bottom: 1px solid var(--line-dark);
+      overflow: hidden;
+    }
+
+    .thumb-image .image-sim {
+      min-height: 180px;
+    }
+
+    .thumb-info {
+      padding: 16px;
+    }
+
+    .thumb-name {
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.45;
+      letter-spacing: -0.03em;
+    }
+
+    .thumb-meta {
+      margin-top: 8px;
+      color: var(--sub);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .footer {
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .footer-title {
+      font-family: "Inika", Georgia, serif;
+      font-size: clamp(42px, 5vw, 86px);
+      line-height: 1;
+      letter-spacing: 0.04em;
+    }
+
+    .footer p {
+      margin-top: 26px;
+      color: var(--sub);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+
+    /* Photo preview mode */
+    .photo-preview-note {
+      grid-column: 3 / 11;
+      margin-top: 46px;
+      padding: 20px 24px;
+      border: 1px solid var(--line-dark);
+      color: var(--sub);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.7;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
+
+    .image-frame {
+      border: 1px solid var(--line-dark);
+      overflow: hidden;
+      background: #f4efe5;
+    }
+
+    .image-frame.medium { min-height: 260px; }
+    .image-frame.small { min-height: 180px; }
+
+    .image-sim {
+      width: 100%;
+      min-height: inherit;
+      height: 100%;
+      display: flex;
+      align-items: end;
+      justify-content: start;
+      padding: 18px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-align: left;
+      line-height: 1.45;
+      background:
+        linear-gradient(145deg, rgba(17,17,17,.72), rgba(17,17,17,.08) 55%, rgba(17,17,17,.55)),
+        radial-gradient(circle at 28% 32%, rgba(255,255,255,.42) 0 10%, transparent 11%),
+        linear-gradient(120deg, #1f3b2c 0%, #52382b 46%, #f4efe5 100%);
+    }
+
+    .image-sim.archive {
+      color: #181814;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.72), rgba(255,255,255,.12) 55%, rgba(82,56,43,.24)),
+        repeating-linear-gradient(0deg, rgba(82,56,43,.12) 0 1px, transparent 1px 14px),
+        linear-gradient(120deg, #fffce8 0%, #d8c9aa 52%, #52382b 100%);
+    }
+
+    .image-sim.product {
+      background:
+        linear-gradient(145deg, rgba(24,24,20,.65), rgba(24,24,20,.08) 55%, rgba(24,24,20,.48)),
+        radial-gradient(ellipse at center, rgba(255,255,255,.72) 0 18%, transparent 19%),
+        linear-gradient(120deg, #fffce8 0%, #c9bca1 45%, #1f3b2c 100%);
+    }
+
+    .image-sim.web {
+      color: #181814;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.9), rgba(255,255,255,.4)),
+        repeating-linear-gradient(90deg, rgba(17,17,17,.18) 0 1px, transparent 1px 90px),
+        linear-gradient(120deg, #ffffff 0%, #f4efe5 55%, #d9d1bf 100%);
+    }
+
+    .mood-preview.photo {
+      border: 1px solid var(--line-dark);
+      padding: 0;
+      gap: 0;
+      overflow: hidden;
+      background: #f4efe5;
+    }
+
+    .mood-preview.photo .mood-tile {
+      border: none;
+      color: #fff;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 12px;
+      background:
+        linear-gradient(145deg, rgba(17,17,17,.72), rgba(17,17,17,.05) 60%, rgba(17,17,17,.55)),
+        linear-gradient(120deg, #1f3b2c 0%, #52382b 48%, #fffce8 100%);
+    }
+
+    .mood-preview.photo .mood-tile:nth-child(2) {
+      background:
+        linear-gradient(145deg, rgba(17,17,17,.64), rgba(17,17,17,.06) 60%, rgba(17,17,17,.55)),
+        linear-gradient(120deg, #181814 0%, #2f4b39 50%, #c8b894 100%);
+    }
+
+    .mood-preview.photo .mood-tile:nth-child(3) {
+      color: #181814;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.8), rgba(255,255,255,.16) 60%, rgba(82,56,43,.18)),
+        linear-gradient(120deg, #fffce8 0%, #d2c5ad 55%, #6b5742 100%);
+    }
+
+    .mood-preview.photo .mood-tile:nth-child(4) {
+      background:
+        linear-gradient(145deg, rgba(17,17,17,.72), rgba(17,17,17,.05) 60%, rgba(17,17,17,.6)),
+        linear-gradient(120deg, #52382b 0%, #1f3b2c 55%, #181814 100%);
+    }
+
+    @media (max-width: 1080px) {
+      .wrap { width: min(calc(100% - 48px), var(--max)); }
+      .grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+
+      .center,
+      .cards,
+      .cards.two,
+      .cards.four,
+      .flow-table,
+      .quote,
+      .formula,
+      .color-list,
+      .mockup-wide {
+        grid-column: 1 / -1;
+      }
+
+      .cards,
+      .cards.two,
+      .cards.four,
+      .mockup-grid,
+      .color-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav { display: none; }
+      .wrap { width: min(calc(100% - 32px), var(--max)); }
+      .section { padding: 92px 0; }
+
+      .cards,
+      .cards.two,
+      .cards.four,
+      .mockup-grid,
+      .color-list {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-row {
+        display: block;
+      }
+
+      .flow-row b {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .quote {
+        padding: 46px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="wrap header-inner">
+      <a href="#top" class="logo">VERONE</a>
+      <nav class="nav">
+        <a href="#overview">개요</a>
+        <a href="#naming">네이밍</a>
+        <a href="#mood">무드보드</a>
+        <a href="#package">패키지</a>
+        <a href="#web">웹기획</a>
+        <a href="#result">결과</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="hero-kicker">Brand Planning Process</div>
+          <h1 class="hero-title">VERONE</h1>
+          <p class="hero-sub">
+            레트로 스포츠웨어 브랜드를 만들기 위해 진행한 전체 기획 과정입니다.
+            브랜드 이름, 타겟, 페르소나, 문제 정의, 브랜드 무드보드, 패키지 방향, 웹사이트 기획까지
+            결과물이 나오기 전의 흐름을 중심으로 정리했습니다.
+          </p>
+          <div class="hero-bottom">Time Passes. Values Remain.</div>
+          <div class="photo-preview-note">
+            이 버전은 실제 사진을 넣었을 때의 화면감을 보기 위한 미리보기입니다.
+            회색 와이어 박스 대신 사진이 들어가는 영역을 톤 이미지처럼 표현했습니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="overview">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">01. 프로젝트 개요</div>
+          <h2 class="section-title">일상형 스포츠 유니폼</h2>
+          <div class="section-subtitle">경기장이 아닌 일상으로 확장한 스포츠웨어</div>
+          <p class="section-desc">
+            VERONE은 오래된 스포츠 유니폼과 팀웨어의 감성을 현대적으로 재해석한 레트로 스포츠웨어 브랜드입니다.
+            경기장에서만 입는 옷이 아니라, 일상에서 자연스럽게 입을 수 있는 데일리 스포츠웨어를 목표로 기획했습니다.
+          </p>
+        </div>
+
+        <div class="flow-table">
+          <div class="flow-row">
+            <b>Goal</b>
+            <span>스포츠웨어를 일상복과 패션 아이템으로 해석하는 브랜드 기획</span>
+          </div>
+          <div class="flow-row">
+            <b>Scope</b>
+            <span>네이밍, 타겟 분석, 브랜드 컨셉, 브랜드 무드보드, 패키지 기획, 웹사이트 기획</span>
+          </div>
+          <div class="flow-row">
+            <b>Result</b>
+            <span>상품 썸네일 패키지, 메인 페이지, 상품 페이지, 브랜드 소개 페이지, 개인 프로필</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="market">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">02. 시장 배경</div>
+          <h2 class="section-title">레트로 스포츠웨어의 가능성</h2>
+          <div class="section-subtitle">유니폼과 팀웨어가 패션 아이템으로 소비되는 흐름</div>
+          <p class="section-desc">
+            스포츠웨어는 더 이상 운동할 때만 입는 옷이 아니라, 일상복과 패션 아이템으로 소비되고 있습니다.
+            특히 유니폼, 바람막이, 트랙 자켓은 팬덤 문화와 레트로 트렌드가 결합되며 개인의 취향을 보여주는 스타일로 확장되고 있습니다.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card basic-card">
+            <div class="caption">Insight 01</div>
+            <h3 class="card-title">유니폼의 일상화</h3>
+            <p class="body">스포츠 유니폼이 굿즈를 넘어 데일리룩과 스트릿 패션 아이템으로 소비되고 있습니다.</p>
+          </article>
+          <article class="card basic-card">
+            <div class="caption">Insight 02</div>
+            <h3 class="card-title">레트로 무드 확산</h3>
+            <p class="body">오래된 스포츠웨어의 색감, 실루엣, 팀웨어 분위기가 다시 주목받고 있습니다.</p>
+          </article>
+          <article class="card basic-card">
+            <div class="caption">Insight 03</div>
+            <h3 class="card-title">라이프스타일 확장</h3>
+            <p class="body">특정 팀이나 종목을 넘어 스포츠 감성을 일상 스타일로 즐기는 흐름이 생겼습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="target">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">03. 타겟 분석</div>
+          <h2 class="section-title">MZ 패션 소비층</h2>
+          <div class="section-subtitle">스포츠웨어를 데일리룩으로 해석하는 사용자</div>
+          <p class="section-desc">
+            스포츠웨어를 운동복뿐 아니라 데일리룩, 팬덤 아이템, 스트릿 패션으로 소비하는
+            10대부터 30대까지의 MZ 패션 소비층을 주요 타겟으로 설정했습니다.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card basic-card">
+            <div class="caption">Persona</div>
+            <h3 class="card-title">김도윤 / 24세</h3>
+            <p class="body">
+              대학생. 편집숍과 온라인 쇼핑을 자주 이용하며, 유니폼과 바람막이처럼 편하면서도 개성이 있는 옷을 선호합니다.
+            </p>
+          </article>
+          <article class="card basic-card">
+            <div class="caption">Pain Points</div>
+            <ul class="list">
+              <li>기능성 스포츠웨어처럼 보이는 옷은 일상에서 부담스러움</li>
+              <li>너무 트렌디한 디자인은 오래 입기 어렵다고 느낌</li>
+              <li>레트로 감성은 있지만 촌스럽지 않은 브랜드를 찾기 어려움</li>
+            </ul>
+          </article>
+          <article class="card basic-card">
+            <div class="caption">Needs</div>
+            <ul class="list">
+              <li>일상복처럼 편하게 입을 수 있는 스포츠웨어</li>
+              <li>브랜드 분위기가 분명한 상품 구성</li>
+              <li>스포츠 감성과 레트로 무드가 자연스럽게 섞인 디자인</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="problem">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">04. 문제 정의</div>
+          <h2 class="section-title">일상에서 입는 레트로 스포츠</h2>
+          <div class="section-subtitle">경기복 이미지와 일상복 사이의 빈틈</div>
+          <p class="section-desc">
+            기존 스포츠웨어는 기능성이나 경기복 이미지가 강하고, 일부 브랜드는 너무 스트릿하거나 트렌디한 느낌에 치우쳐 있습니다.
+            VERONE은 클래식한 스포츠 감성은 유지하면서도 일상복처럼 자연스럽게 입을 수 있는 브랜드를 목표로 했습니다.
+          </p>
+        </div>
+
+        <div class="quote">
+          <p>“경기 중심이 아닌,<br>스포츠를 입는 사람을 위한 브랜드”</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="naming">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">05. 브랜드 네이밍</div>
+          <h2 class="section-title">VERONE 네이밍</h2>
+          <div class="section-subtitle">EVER ONE + EVERYONE</div>
+          <p class="section-desc">
+            VERONE은 시간이 지나도 남는 가치와 모두를 위한 스포츠웨어라는 의미를 함께 담기 위해
+            EVER ONE과 EVERYONE의 의미를 결합해 만든 이름입니다.
+          </p>
+        </div>
+
+        <div class="cards two">
+          <article class="card basic-card center-card">
+            <div class="caption">Meaning 01</div>
+            <h3 class="card-title eng-title">EVER ONE</h3>
+            <p class="body">시간이 지나도 변하지 않는 하나의 가치. 클래식한 스포츠웨어의 지속성을 의미합니다.</p>
+          </article>
+          <article class="card basic-card center-card">
+            <div class="caption">Meaning 02</div>
+            <h3 class="card-title eng-title">EVERYONE</h3>
+            <p class="body">특정 선수나 연령층만을 위한 옷이 아니라, 누구나 입고 즐길 수 있는 스포츠웨어를 의미합니다.</p>
+          </article>
+        </div>
+
+        <div class="formula">VERONE · Time Passes. Values Remain.</div>
+      </div>
+    </section>
+
+    <section class="section" id="concept">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">06. 브랜드 컨셉</div>
+          <h2 class="section-title">클래식을 새롭게 입다</h2>
+          <div class="section-subtitle">스포츠에는 나이가 없다. 누구나 입고 누구나 뛴다.</div>
+          <p class="section-desc">
+            오래된 스포츠 유니폼의 상징성과 레트로 감성을 바탕으로, 현대적인 컬러와 정돈된 웹디자인을 통해
+            새로운 데일리 스포츠웨어 브랜드로 표현했습니다.
+          </p>
+        </div>
+
+        <div class="cards two">
+          <article class="card basic-card center-card">
+            <div class="caption">Concept</div>
+            <h3 class="card-title">일상에서 자연스럽게 입는 스포츠 유니폼</h3>
+            <p class="body">스포츠웨어를 단순한 운동복이 아니라, 개인의 취향과 분위기를 보여주는 일상복으로 해석했습니다.</p>
+          </article>
+          <article class="card basic-card center-card">
+            <div class="caption">Slogan</div>
+            <h3 class="card-title">스포츠에는 나이가 없다.<br>누구나 입고 누구나 뛴다.</h3>
+            <p class="body">특정 연령과 종목에 제한되지 않고 누구나 스포츠 감성을 즐길 수 있다는 의미입니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="design">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">07. 디자인 방향</div>
+          <h2 class="section-title">레트로 아카이브 무드</h2>
+          <div class="section-subtitle">Retro · Sports · Heritage · Everyday</div>
+          <p class="section-desc">
+            브랜드의 시각 방향은 Retro, Sports, Heritage, Everyday 네 가지 키워드로 정리했습니다.
+            이 키워드는 컬러, 타이포그래피, 상품 썸네일, 웹페이지 구성까지 이어집니다.
+          </p>
+        </div>
+
+        <div class="cards four">
+          <article class="card basic-card">
+            <div class="caption">Keyword 01</div>
+            <h3 class="card-title eng-title">Retro</h3>
+            <p class="body">오래된 스포츠웨어의 색감, 종이 질감, 아카이브 라벨의 분위기</p>
+          </article>
+          <article class="card basic-card">
+            <div class="caption">Keyword 02</div>
+            <h3 class="card-title eng-title">Sports</h3>
+            <p class="body">유니폼, 바람막이, 팀웨어 중심의 제품군과 브랜드 메시지</p>
+          </article>
+          <article class="card basic-card">
+            <div class="caption">Keyword 03</div>
+            <h3 class="card-title eng-title">Heritage</h3>
+            <p class="body">시간이 지나도 남는 클래식한 가치와 깊이 있는 브랜드 무드</p>
+          </article>
+          <article class="card basic-card">
+            <div class="caption">Keyword 04</div>
+            <h3 class="card-title eng-title">Everyday</h3>
+            <p class="body">경기장이 아닌 일상에서도 자연스럽게 입을 수 있는 데일리웨어</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mood">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">08. 브랜드 무드보드</div>
+          <h2 class="section-title">VERONE Moodboard</h2>
+          <div class="section-subtitle">브랜드 전체 분위기와 제품 색감의 기준</div>
+          <p class="section-desc">
+            무드보드는 제품별로 나누기보다 VERONE이라는 브랜드가 전체적으로 어떤 분위기로 보일지에 집중해 정리했습니다.
+            오래된 스포츠 아카이브, 유니폼과 팀웨어, 크림 원단과 종이 태그, 딥그린과 브라운 계열의 색감을 기준으로
+            브랜드의 클래식하고 차분한 레트로 스포츠 분위기를 잡았습니다.
+          </p>
+        </div>
+
+        <div class="cards four">
+          <article class="card basic-card">
+            <div class="caption">Mood 01</div>
+            <div class="mood-preview photo">
+              <div class="mood-tile">Deep Green</div>
+              <div class="mood-tile">Cream</div>
+              <div class="mood-tile">Archive Brown</div>
+              <div class="mood-tile">Ink Black</div>
+            </div>
+            <h3 class="card-title">Color Mood</h3>
+            <p class="body">
+              제품에 직접 옐로우를 넣기보다는 딥그린, 크림, 브라운, 블랙을 중심으로
+              차분한 레트로 스포츠웨어의 색감을 정리했습니다.
+            </p>
+          </article>
+
+          <article class="card basic-card">
+            <div class="caption">Mood 02</div>
+            <div class="mood-preview photo">
+              <div class="mood-tile">Old Stadium</div>
+              <div class="mood-tile">Vintage Match</div>
+              <div class="mood-tile">Teamwear</div>
+              <div class="mood-tile">Uniform</div>
+            </div>
+            <h3 class="card-title">Sports Archive</h3>
+            <p class="body">
+              오래된 경기장, 팀 사진, 빈티지 유니폼을 참고해 스포츠 브랜드의 헤리티지 분위기를 만들었습니다.
+            </p>
+          </article>
+
+          <article class="card basic-card">
+            <div class="caption">Mood 03</div>
+            <div class="mood-preview photo">
+              <div class="mood-tile">Cream Fabric</div>
+              <div class="mood-tile">Paper Tag</div>
+              <div class="mood-tile">Vintage Label</div>
+              <div class="mood-tile">Canvas Texture</div>
+            </div>
+            <h3 class="card-title">Archive Texture</h3>
+            <p class="body">
+              크림 원단, 종이 태그, 빈티지 라벨 같은 질감을 참고해 패키지 배경과 썸네일 무드를 정리했습니다.
+            </p>
+          </article>
+
+          <article class="card basic-card">
+            <div class="caption">Mood 04</div>
+            <div class="mood-preview photo">
+              <div class="mood-tile">Clock</div>
+              <div class="mood-tile">Compass</div>
+              <div class="mood-tile">Time</div>
+              <div class="mood-tile">Direction</div>
+            </div>
+            <h3 class="card-title">Symbol Mood</h3>
+            <p class="body">
+              시계와 나침반 이미지를 통해 시간이 지나도 남는 가치와 모두를 위한 하나의 방향성을 표현했습니다.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="package">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">09. 패키지 디자인 방향</div>
+          <h2 class="section-title">패키지 설계 기준</h2>
+          <div class="section-subtitle">상품이 하나의 브랜드 제품군처럼 보이도록 만드는 기준</div>
+          <p class="section-desc">
+            제품 이미지가 각각 따로 보이지 않도록 배경, 스케일, 로고 사용 방식을 일정하게 맞췄습니다.
+            이를 통해 상품 썸네일 패키지가 하나의 브랜드 시스템처럼 보이도록 구성했습니다.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card basic-card">
+            <div class="caption">Direction 01</div>
+            <h3 class="card-title">배경 통일</h3>
+            <p class="body">크림 계열의 밝은 배경을 사용해 제품이 깔끔하게 보이도록 정리했습니다.</p>
+          </article>
+          <article class="card basic-card">
+            <div class="caption">Direction 02</div>
+            <h3 class="card-title">스케일 정리</h3>
+            <p class="body">제품 크기와 여백을 일정하게 맞춰 같은 제품군처럼 보이도록 구성했습니다.</p>
+          </article>
+          <article class="card basic-card">
+            <div class="caption">Direction 03</div>
+            <h3 class="card-title">로고 유지</h3>
+            <p class="body">공식 원형 로고를 그대로 사용하고, 형태나 텍스트를 재해석하지 않습니다.</p>
+          </article>
+        </div>
+
+        <div class="flow-table">
+          <div class="flow-row">
+            <b>Background</b>
+            <span>크림 톤 배경과 부드러운 여백을 사용해 제품이 또렷하게 보이도록 정리</span>
+          </div>
+          <div class="flow-row">
+            <b>Product</b>
+            <span>원본 상품 색상과 형태는 유지하고, 재해석 없이 그대로 사용</span>
+          </div>
+          <div class="flow-row">
+            <b>Brand</b>
+            <span>공식 로고와 브랜드 무드를 일정하게 유지해 패키지 시스템화</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mockup">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">10. 패키지 목업</div>
+          <h2 class="section-title">썸네일 패키지 목업</h2>
+          <div class="section-subtitle">정리한 기준이 실제 상품 썸네일에 어떻게 적용되는지 확인</div>
+          <p class="section-desc">
+            최종 패키지에서는 각 제품이 같은 브랜드 안에 있는 상품처럼 보이는지가 중요했습니다.
+            아래 목업은 썸네일 패키지 화면의 구조와 정렬 방향을 보여주는 예시입니다.
+          </p>
+        </div>
+
+        <div class="card mockup-wide">
+          <div class="mockup-header">
+            <h3>Thumbnail Package Mockup</h3>
+            <div class="caption">Cream Background / Fixed Scale / Official Logo</div>
+          </div>
+
+          <div class="mockup-grid">
+            <article class="product-thumb">
+              <div class="thumb-image"><div class="image-sim product">Home Uniform</div></div>
+              <div class="thumb-info">
+                <div class="thumb-name">Classic Retro Jersey (Home)</div>
+                <div class="thumb-meta">Uniform Line / Hero Product</div>
+              </div>
+            </article>
+            <article class="product-thumb">
+              <div class="thumb-image"><div class="image-sim product">Baseball Jumper</div></div>
+              <div class="thumb-info">
+                <div class="thumb-name">Retro Baseball Jumper</div>
+                <div class="thumb-meta">Jacket Line / Archive Mood</div>
+              </div>
+            </article>
+            <article class="product-thumb">
+              <div class="thumb-image"><div class="image-sim product">Windbreaker</div></div>
+              <div class="thumb-info">
+                <div class="thumb-name">Retro Windbreaker Jacket</div>
+                <div class="thumb-meta">Active Line / Lightweight</div>
+              </div>
+            </article>
+            <article class="product-thumb">
+              <div class="thumb-image"><div class="image-sim product">Brown Hoodie</div></div>
+              <div class="thumb-info">
+                <div class="thumb-name">Archive Brown Hoodie</div>
+                <div class="thumb-meta">Daily Line / Casual Mood</div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="apply">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">11. 실제 적용 목업</div>
+          <h2 class="section-title">웹 화면 적용</h2>
+          <div class="section-subtitle">패키지 결과물이 웹사이트 안에서 어떻게 보이는지 확인</div>
+          <p class="section-desc">
+            정리된 상품 패키지는 단순히 썸네일에 그치지 않고 메인 페이지, 상품 전체 페이지,
+            브랜드 소개 페이지 안에서 하나의 브랜드 이미지로 이어지도록 적용했습니다.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card basic-card center-card">
+            <div class="image-frame medium"><div class="image-sim web">Main Page<br>Best Product Area</div></div>
+            <h3 class="card-title" style="margin-top:24px;">메인페이지 적용</h3>
+            <p class="body">대표 상품 영역에 패키지 무드를 적용해 브랜드 첫인상과 상품 이미지가 연결되도록 구성했습니다.</p>
+          </article>
+          <article class="card basic-card center-card">
+            <div class="image-frame medium"><div class="image-sim web">Shop All Page<br>Product Grid</div></div>
+            <h3 class="card-title" style="margin-top:24px;">상품 페이지 적용</h3>
+            <p class="body">제품군을 한 번에 보여주는 페이지에서 썸네일 스케일과 배경을 일정하게 정리했습니다.</p>
+          </article>
+          <article class="card basic-card center-card">
+            <div class="image-frame medium"><div class="image-sim web">Brand Intro Page<br>Signature Pieces</div></div>
+            <h3 class="card-title" style="margin-top:24px;">브랜드 소개 적용</h3>
+            <p class="body">시그니처 제품 섹션에서 제품이 브랜드 정체성을 보여주는 장치로 작동하도록 만들었습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="web">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">12. 웹사이트 기획</div>
+          <h2 class="section-title">브랜드와 상품을 잇는 웹 구조</h2>
+          <div class="section-subtitle">Main · Shop All · Brand Intro</div>
+          <p class="section-desc">
+            웹사이트는 메인, 상품 전체, 브랜드 소개 페이지로 구성했습니다.
+            사용자가 브랜드의 분위기를 먼저 느끼고, 자연스럽게 상품 탐색과 브랜드 이해로 이어지도록 설계했습니다.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card basic-card">
+            <div class="caption">Page 01</div>
+            <h3 class="card-title eng-title">Main Page</h3>
+            <p class="body">브랜드 첫인상, 히어로 이미지, 추천 상품, 아카이브 섹션으로 구성</p>
+          </article>
+          <article class="card basic-card">
+            <div class="caption">Page 02</div>
+            <h3 class="card-title eng-title">Shop All Page</h3>
+            <p class="body">제품군별 카테고리 구분과 상품 비교에 집중한 구조</p>
+          </article>
+          <article class="card basic-card">
+            <div class="caption">Page 03</div>
+            <h3 class="card-title eng-title">Brand Intro</h3>
+            <p class="body">브랜드 의미, 헤리티지, 심볼, 소재, 시그니처 제품을 순서대로 전달</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="system">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">13. 디자인 시스템</div>
+          <h2 class="section-title">컬러와 타이포그래피</h2>
+          <div class="section-subtitle">Deep Green · Cream · Archive Brown · Inika · Inter</div>
+          <p class="section-desc">
+            실제 디자인에서는 딥그린, 크림, 브라운 계열을 중심으로 클래식한 스포츠 브랜드의 분위기를 만들고,
+            Inika와 Inter의 역할을 나누어 브랜드성과 가독성을 함께 확보했습니다.
+          </p>
+        </div>
+
+        <div class="color-list">
+          <div class="color-item"><div class="color-chip"></div><b>Deep Green</b><span>브랜드 중심축</span></div>
+          <div class="color-item"><div class="color-chip"></div><b>Cream</b><span>배경 / 여백</span></div>
+          <div class="color-item"><div class="color-chip"></div><b>Archive Brown</b><span>헤리티지 무드</span></div>
+          <div class="color-item"><div class="color-chip"></div><b>Logo Accent</b><span>로고 / 태그 전용</span></div>
+          <div class="color-item"><div class="color-chip"></div><b>Ink Black</b><span>본문 / 대비</span></div>
+        </div>
+
+        <div class="cards two">
+          <article class="card basic-card center-card">
+            <div class="caption">Typography 01</div>
+            <h3 class="card-title eng-title">Inika</h3>
+            <p class="body">브랜드명, 영문 키워드, 짧은 브랜드 문구에 사용하여 클래식한 인상을 만듭니다.</p>
+          </article>
+          <article class="card basic-card center-card">
+            <div class="caption">Typography 02</div>
+            <h3 class="card-title">Inter</h3>
+            <p class="body">한글 제목과 본문 설명에 사용하여 프로세스 내용을 더 깔끔하고 현대적으로 전달합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="result">
+      <div class="wrap grid">
+        <div class="center">
+          <div class="section-label">14. 최종 결과물</div>
+          <h2 class="section-title">기획에서 결과물까지</h2>
+          <div class="section-subtitle">Package · Website · Personal Profile</div>
+          <p class="section-desc">
+            네이밍, 타겟, 컨셉, 디자인 방향을 바탕으로 상품 썸네일 패키지,
+            웹사이트, 개인 프로필 페이지까지 하나의 포트폴리오 흐름으로 정리했습니다.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card basic-card center-card">
+            <div class="image-frame small"><div class="image-sim product">Package</div></div>
+            <h3 class="card-title" style="margin-top:24px;">패키지</h3>
+            <p class="body">상품 썸네일 패키지와 제품군 통일화</p>
+          </article>
+          <article class="card basic-card center-card">
+            <div class="image-frame small"><div class="image-sim web">Website</div></div>
+            <h3 class="card-title" style="margin-top:24px;">웹사이트</h3>
+            <p class="body">메인, 상품 전체, 브랜드 소개 페이지</p>
+          </article>
+          <article class="card basic-card center-card">
+            <div class="image-frame small"><div class="image-sim archive">Profile</div></div>
+            <h3 class="card-title" style="margin-top:24px;">개인 프로필</h3>
+            <p class="body">Quiet Structure 기반 개인 프로필 사이트</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-title">VERONE PROCESS</div>
+      <p>
+        Brand Planning · Moodboard · Package Design · Website Planning<br>
+        Time Passes. Values Remain.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
